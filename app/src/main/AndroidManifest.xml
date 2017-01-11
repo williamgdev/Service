@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <service android:name=".SimpleIntentService"/>
-        <service android:name=".SimpleService"/>
+        <service android:name=".SimpleService" android:enabled="true" android:exported="true"/>
     </application>
 
 </manifest>
