@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -46,13 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onStartBoundService(View view) {
-        if (!bsstarted){
+        switchButton();
+    }
+
+    private void switchButton() {
+        if (!bsstarted) {
             bStartBoundService.setText(R.string.stop_boundservice);
             Intent intent = new Intent(this, BoundService.class);
             bindService(intent, mConnection, BIND_AUTO_CREATE);
-        }
-        else {
-            bStartBoundService.setText(R.string.start_service);
+        } else {
+            bStartBoundService.setText(R.string.start_boundservice);
             bsstarted = false;
             unbindService(mConnection);
         }
@@ -60,17 +64,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     private BoundService mBoundService;
+    private String Tag = "ServiceConnection";
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             BoundService.LocalBinder binder = (BoundService.LocalBinder) service;
             mBoundService = binder.getService();
             bsstarted = true;
+            Log.d(Tag, "onServiceConnected: ");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            bsstarted = false;
+            switchButton();
+            Log.d(Tag, "onServiceDisconnected: ");
         }
     };
 
