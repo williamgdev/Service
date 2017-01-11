@@ -1,15 +1,19 @@
 package com.github.william.examples.service;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button bStartSimpleServie;
-    boolean ssstarted;
-
+    Button
+            bStartSimpleServie,
+            bStartBoundService;
+    boolean ssstarted, bsstarted;
 
 
     @Override
@@ -17,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bStartSimpleServie = (Button) findViewById(R.id.main_bSimpleService);
+        bStartBoundService = (Button) findViewById(R.id.main_bBoundService);
     }
 
     public void onStartIntentService(View view) {
@@ -38,4 +43,33 @@ public class MainActivity extends AppCompatActivity {
             stopService(intent);
         }
     }
+
+
+    public void onStartBoundService(View view) {
+        if (!bsstarted){
+            bStartBoundService.setText(R.string.stop_boundservice);
+            bsstarted = true;
+            Intent intent = new Intent(this, BoundService.class);
+            bindService(intent, mConnection, BIND_AUTO_CREATE);
+        }
+        else {
+            bStartBoundService.setText(R.string.start_service);
+            bsstarted = false;
+            unbindService(mConnection);
+        }
+    }
+
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
+
 }

@@ -29,4 +29,11 @@
         android:text="@string/start_service"
         android:onClick="onStartSimpleService"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_bBoundService"
+        android:text="@string/start_boundservice"
+        android:onClick="onStartBoundService"
+        />
 </LinearLayout>
