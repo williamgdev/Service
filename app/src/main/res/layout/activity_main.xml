@@ -36,4 +36,11 @@
         android:text="@string/start_boundservice"
         android:onClick="onStartBoundService"
         />
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/main_doMagic"
+    android:text="doMagic"
+    android:onClick="doMagic"
+    />
 </LinearLayout>

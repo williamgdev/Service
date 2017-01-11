@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button
             bStartSimpleServie,
             bStartBoundService;
     boolean ssstarted, bsstarted;
+
 
 
     @Override
@@ -78,7 +80,13 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
             switchButton();
             Log.d(Tag, "onServiceDisconnected: ");
+
         }
     };
 
+    public void doMagic(View view) {
+        if (mBoundService != null) {
+            Toast.makeText(this, mBoundService.doMagic(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
