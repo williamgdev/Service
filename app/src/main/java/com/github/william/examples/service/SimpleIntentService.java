@@ -20,13 +20,25 @@ public class SimpleIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent: ");
         try {
-            Thread.sleep(500);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
         }
+        Log.d(TAG, "onHandleIntent: Finish Task");
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate: ");
+    }
 
 }

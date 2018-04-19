@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     Button
             bStartSimpleServie,
             bStartBoundService;
-    boolean ssstarted, bsstarted;
+    boolean ssstarted, bsStarted;
 
 
 
@@ -53,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchButton() {
-        if (!bsstarted) {
+        if (!bsStarted) {
             bStartBoundService.setText(R.string.stop_boundservice);
             Intent intent = new Intent(this, BoundService.class);
             bindService(intent, mConnection, BIND_AUTO_CREATE);
         } else {
             bStartBoundService.setText(R.string.start_boundservice);
-            bsstarted = false;
+            bsStarted = false;
             unbindService(mConnection);
         }
     }
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             BoundService.LocalBinder binder = (BoundService.LocalBinder) service;
             mBoundService = binder.getService();
-            bsstarted = true;
+            bsStarted = true;
             Log.d(Tag, "onServiceConnected: ");
         }
 
@@ -80,12 +80,11 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
             switchButton();
             Log.d(Tag, "onServiceDisconnected: ");
-
         }
     };
 
     public void doMagic(View view) {
-        if (mBoundService != null) {
+        if (bsStarted) {
             Toast.makeText(this, mBoundService.doMagic(), Toast.LENGTH_SHORT).show();
         }
     }
