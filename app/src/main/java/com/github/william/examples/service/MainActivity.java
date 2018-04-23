@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartIntentService(View view) {
-        Intent intent = new Intent(this, SimpleIntentService.class);
+        Intent intent = SimpleIntentService.buildIntent(this, 5000);
         startService(intent);
     }
 

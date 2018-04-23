@@ -1,6 +1,7 @@
 package com.github.william.examples.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -10,6 +11,7 @@ import android.util.Log;
 
 public class SimpleIntentService extends IntentService {
 
+    private final static String TIME_TO_WAIT = "timeToWait";
     private String TAG = "SimpleIntentService";
 
     public SimpleIntentService() {
@@ -18,14 +20,22 @@ public class SimpleIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        int timeToWait = intent.getIntExtra(this.TIME_TO_WAIT, 5000);
         Log.d(TAG, "onHandleIntent: ");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(timeToWait);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
         }
         Log.d(TAG, "onHandleIntent: Finish Task");
+
+    }
+
+    public static Intent buildIntent(Context context, int timeToWait) {
+        Intent intent = new Intent(context, SimpleIntentService.class);
+        intent.putExtra(TIME_TO_WAIT, timeToWait);
+        return intent;
 
     }
 
