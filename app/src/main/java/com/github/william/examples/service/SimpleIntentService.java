@@ -3,6 +3,7 @@ package com.github.william.examples.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 /**
@@ -11,7 +12,6 @@ import android.util.Log;
 
 public class SimpleIntentService extends IntentService {
 
-    private final static String TIME_TO_WAIT = "timeToWait";
     private String TAG = "SimpleIntentService";
 
     public SimpleIntentService() {
@@ -20,8 +20,9 @@ public class SimpleIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        int timeToWait = intent.getIntExtra(this.TIME_TO_WAIT, 5000);
+        int timeToWait = intent.getIntExtra(ServiceConstants.TIME_TO_WAIT, 5000);
         Log.d(TAG, "onHandleIntent: ");
+        sendStatus(ServiceConstants.STATUS.STARTED);
         try {
             Thread.sleep(timeToWait);
         } catch (InterruptedException e) {
@@ -29,12 +30,19 @@ public class SimpleIntentService extends IntentService {
             Thread.currentThread().interrupt();
         }
         Log.d(TAG, "onHandleIntent: Finish Task");
+        sendStatus(ServiceConstants.STATUS.FINISHED);
 
+    }
+
+    private void sendStatus(ServiceConstants.STATUS status) {
+        Intent intent = new Intent(ServiceConstants.BROADCAST_SERVICE_STATUS);
+        intent.putExtra(ServiceConstants.BROADCAST_DATA_STATUS, status);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     public static Intent buildIntent(Context context, int timeToWait) {
         Intent intent = new Intent(context, SimpleIntentService.class);
-        intent.putExtra(TIME_TO_WAIT, timeToWait);
+        intent.putExtra(ServiceConstants.TIME_TO_WAIT, timeToWait);
         return intent;
 
     }
